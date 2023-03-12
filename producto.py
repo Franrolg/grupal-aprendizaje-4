@@ -1,24 +1,23 @@
 import generador as gen
 from proveedor import Proveedor, proveedores
 
-class Producto(): # definición de la clase y sus atributos.
+class Producto():
     sku: int
     nombre: str
     categoria: str
     proveedor: Proveedor
     stock: int
     valor_neto: int
-    __impuesto: float
-    color: str # éste es el nuevo atributo.
+    __impuesto: float = 0.19 # Se guarda el % de impuestos que se cobra, para después realizar cálculo
+    color: str 
 
-    def __init__(self, nombre, categoria, proveedor, stock, valor_neto, color): # constructor de la clase.
+    def __init__(self, nombre, categoria, proveedor, stock, valor_neto, color): 
         self.sku = str(gen.generar_id(10))
         self.nombre = nombre.title()
         self.categoria = categoria.title()
         self.proveedor = proveedor
         self.stock = stock
         self.valor_neto = valor_neto
-        self.__impuesto = round(valor_neto * 1.19)
         self.color = color.title()
 
     def mostrar_productos(self): # método.
