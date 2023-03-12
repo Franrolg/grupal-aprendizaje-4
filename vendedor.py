@@ -1,6 +1,6 @@
 import generador as gen
-from producto import lista_productos
-from cliente import lista_clientes
+from producto import lista_productos, Producto
+from cliente import lista_clientes, Cliente
 
 class Vendedor(): 
     run: str
@@ -60,7 +60,9 @@ def menu_vendedores():
                 print(vendedor.mostrar_datos())
 
         elif opcion == '2':
-                vendedor : Vendedor
+                vendedor: Vendedor
+                producto: Producto
+                cliente: Cliente
 
                 for index, vendedor in enumerate(lista_vendedores, start=1):
                     print(f"{gen.color(f'{index})')} {vendedor}")
@@ -100,19 +102,17 @@ def menu_vendedores():
                     print(gen.warning("!No hay stock suficiente!"))
 
 
-                cont=0
-                for cliente in lista_clientes:
-                    cont+=1
-                    nro_cliente = f"{cont})"
-                    print(f"{gen.color(nro_cliente)} {cliente.nombre} {cliente.apellido}")
-
+                for index, cliente in enumerate(lista_clientes, start=1):
+                    print(f"{gen.color(index)} {cliente.nombre} {cliente.apellido}")
 
                 while True:                        
-                    cliente_venta = int(input(gen.color("Seleccione el cliente para realizar la venta\n>> ")))
-                    if gen.validar(cliente_venta, lista_clientes)==True:
-                        break
-                    else: 
-                        print(gen.validar(cliente_venta, lista_clientes))
+                    opcion_cliente = int(input(gen.color("Seleccione el cliente para realizar la venta\n>> ")))
+                    validar_opcion = gen.validar(opcion_cliente, lista_clientes)
 
-                print(vendedor.vender(cantidad_productos, producto, lista_clientes[cliente_venta-1]))
+                    if isinstance(validar_opcion, bool):
+                        cliente = lista_clientes[opcion_producto-1]
+                        break
+                    print(validar_opcion)
+
+                print(vendedor.vender(cantidad_productos, producto, cliente))
 
