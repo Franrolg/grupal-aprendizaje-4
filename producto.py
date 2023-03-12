@@ -31,6 +31,9 @@ class Producto():
     
     def disminuir_stock(self, unidades):
         self.stock -= unidades
+    
+    def verificar_stock(self, unidades):
+        return True if unidades <= self.stock else False
 
 lista_productos = [Producto('Pantalones', 'Vestuario', lista_proveedores[0], 300, 1500, 'gris'), 
                    Producto('Camisas', 'Vestuario', lista_proveedores[1], 300, 1000, 'blanco'), 

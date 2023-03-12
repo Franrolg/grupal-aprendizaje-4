@@ -78,25 +78,27 @@ def menu_vendedores():
                 print(gen.color(f"Vendedor: {vendedor.nombre} {vendedor.apellido}"))
 
 
-                cont_p=0
-                for producto in lista_productos:
-                    cont_p+=1
-                    nro_producto = f"{cont_p})"
-                    print(f"{gen.color(nro_producto)} {producto.nombre} ${producto.valor_neto} Stock:{producto.stock}")
+                for index, producto in enumerate(lista_productos, start=1):
+                    print(f"{gen.color(index)}) {producto}")
 
                 while True:                        
-                    producto_venta = int(input(gen.color("Seleccionar Producto\n>> ")))
-                    if gen.validar(producto_venta, lista_productos)==True:
-                        break
-                    else: 
-                        print(gen.validar(producto_venta, lista_productos))
+                    opcion_producto = int(input(gen.color("Seleccionar Producto\n>> ")))
+                    validar_opcion = gen.validar(opcion_producto, lista_productos)
 
-                cantidad = int(input(gen.color("Ingrese la cantidad\n>> ")))
-                if cantidad <= lista_productos[producto_venta-1].stock:
-                    print(gen.success("¡Si hay Stock!"))
-                else:
-                    print(gen.warning("!No hay Stock Suficiente!"))
-                    break
+                    if isinstance(validar_opcion, bool):
+                        producto = lista_productos[opcion_producto-1]
+                        break
+                    print(validar_opcion)
+
+                while True:    
+                    cantidad_productos = int(input(gen.color("Ingrese la cantidad\n>> ")))
+
+                    if producto.verificar_stock(cantidad_productos):
+                        print(gen.success("¡Si hay stock!"))
+                        break
+
+                    print(gen.warning("!No hay stock suficiente!"))
+
 
                 cont=0
                 for cliente in lista_clientes:
@@ -112,5 +114,5 @@ def menu_vendedores():
                     else: 
                         print(gen.validar(cliente_venta, lista_clientes))
 
-                print(vendedor.vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1]))
+                print(vendedor.vender(cantidad_productos, producto, lista_clientes[cliente_venta-1]))
 
