@@ -1,5 +1,4 @@
-import random
-from colorama import init, Fore, Style
+import random, colorama as colo
 
 def generar_id(length):
     rango_inferior = 10**(length-1)
@@ -18,15 +17,15 @@ def validar(seleccion, lista):
 
 
 # Inicializar colorama
-init()
+colo.init()
 
 def color(chars):
-    return f"{Fore.GREEN}{chars}{Style.RESET_ALL}"
+    return f"{colo.Fore.GREEN}{chars}{colo.Style.RESET_ALL}"
 
 def warning(chars):
-    return f"{Fore.YELLOW}{chars}{Style.RESET_ALL}"
+    return f"{colo.Fore.YELLOW}{chars}{colo.Style.RESET_ALL}"
 
 def success(chars):
-    return f"{Fore.MAGENTA}{chars}{Style.RESET_ALL}"
+    return f"{colo.Fore.MAGENTA}{chars}{colo.Style.RESET_ALL}"
 
 
