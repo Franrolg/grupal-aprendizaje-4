@@ -28,14 +28,9 @@ class Cliente():
         
     def mostrar_saldo(self): # método.
         print(f"{self.nombre} tiene un saldo de: ${self.__saldo}")
-
-    def mostrar_clientes(self): # método.
-        cliente = [self.nombre, self.apellido, self.fecha_registro, self.__saldo]
-
-        if self.premium != '':
-            cliente.append(self.premium)
-
-        return(cliente)
+    
+    def __str__(self) -> str:
+        return f'Nombre: {self.nombre} {self.apellido} / Registro: {self.fecha_registro} / Saldo: {self.__saldo} / Cliente Premium: {"Si" if self.premium else "No"}'
 
 cliente_1 = Cliente('Eduardo', 'Castro', '11/12/2022', True)
 cliente_2 = Cliente('Felipe', 'Soto', '11/11/2021', False)
@@ -74,8 +69,7 @@ def menu_clientes():
                     x.mostrar_saldo()  
 
         elif opcion == '3':
-            for cliente in clientes:
-                print(cliente.mostrar_clientes())
+            for cliente in clientes: print(cliente) # Se imprime lo que retorna __str__ de la clase Cliente
 
         else:
             print(gen.warning('Ingresar una opción válida.'))
