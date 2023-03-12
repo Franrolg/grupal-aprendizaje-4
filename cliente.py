@@ -42,33 +42,37 @@ datos_clientes = [
 
 lista_clientes = [Cliente(cliente['nombre'], cliente['apellido'], cliente['fecha_registro'], cliente['premium']) for cliente in datos_clientes]
 
+def buscar_cliente():
+    while True: # Ciclo para validar si existe cliente con nombre ingresado
+        nombre = input('Ingrese Nombre: ')
+        for cliente in lista_clientes: 
+             if cliente.nombre == nombre.capitalize(): return cliente # Si encuentra cliente con ese nombre, lo retorna
+        print(gen.warning('No se encontró el cliente ingresado.')) # Si no encuentra cliente, envía el print y se repite el ciclo
+
 def menu_clientes():
     while True:
 
         print(gen.success("Menú Clientes:"))
         opcion = input(f'{gen.color("1)")} Agregar saldo\n{gen.color("2)")} Saldo\n{gen.color("3)")} Clientes\n{gen.warning("0)")} Regresar\n>> ')
 
-        if opcion == '0':
-            break
+        if opcion == '0': break
 
         elif opcion == '1':
             print(gen.success('Agregar Saldo'))
-            nombre = input('Ingrese Nombre: ')
+            
+            cliente = buscar_cliente() # Se busca cliente según nombre ingresado
 
-            for x in lista_clientes:
-                if x.nombre == nombre.capitalize():
-                    while True: # Ciclo para validar dato ingresado
-                        saldo = input(f'Ingresar saldo para {x.nombre}: ') # Se pregunta saldo
-                        if saldo.isnumeric(): break # Si el valor ingresado es un número, termina el ciclo while
-                        print(gen.warning('Debe ingresar solo números.')) # Si el valor no es número, se imprime este mensaje y hace de nuevo el ciclo
-                    x.agregar_saldo(int(saldo))
+            while True: # Ciclo para validar saldo ingresado
+                saldo = input(f'Ingresar saldo para {cliente.nombre}: ') # Se pregunta saldo a ingresar
+                if saldo.isnumeric(): break # Si el valor ingresado es un número, termina el ciclo while
+                print(gen.warning('Debe ingresar solo números.')) # Si el valor no es número, se imprime este mensaje y hace de nuevo el ciclo
+
+            cliente.agregar_saldo(int(saldo)) # Se agrega saldo a cliente
             
         elif opcion == '2':
             print(gen.success('Saldo'))
-            nombre = input('Ingrese Nombre: ')
-            for x in lista_clientes:
-                if x.nombre == nombre.capitalize():
-                    x.mostrar_saldo()  
+
+            buscar_cliente().mostrar_saldo() # Se busca cliente por nombre y se muestra saldo con método de la clase
 
         elif opcion == '3':
             for cliente in lista_clientes: print(cliente) # Se imprime lo que retorna __str__ de la clase Cliente

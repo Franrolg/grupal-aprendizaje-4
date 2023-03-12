@@ -1,6 +1,6 @@
 from generador import generar_rut, color, warning, success, validar
 from producto import productos
-from cliente import clientes
+from cliente import lista_clientes
 
 class Vendedor(): # definición de la clase y sus atributos.
     run: str
@@ -105,7 +105,7 @@ def menu_vendedores():
                     break
 
                 cont=0
-                for cliente in clientes:
+                for cliente in lista_clientes:
                     cont+=1
                     nro_cliente = f"{cont})"
                     print(f"{color(nro_cliente)} {cliente.nombre} {cliente.apellido}")
@@ -113,9 +113,9 @@ def menu_vendedores():
 
                 while True:                        
                     cliente_venta = int(input(color("Seleccione el cliente para realizar la venta\n>> ")))
-                    if validar(cliente_venta, clientes)==True:
+                    if validar(cliente_venta, lista_clientes)==True:
                         break
                     else: 
-                        print(validar(cliente_venta, clientes))
-                vendedores[int(vendedor_venta)-1].vender(cantidad, productos[producto_venta-1], clientes[cliente_venta-1])
+                        print(validar(cliente_venta, lista_clientes))
+                vendedores[int(vendedor_venta)-1].vender(cantidad, productos[producto_venta-1], lista_clientes[cliente_venta-1])
 
