@@ -1,31 +1,22 @@
 import generador as gen
 
 
-class Cliente(): # definición de la clase y sus atributos.
+class Cliente(): 
     id: str
     nombre: str
     apellido: str
     correo: str
     fecha_registro: str
-    __saldo: int
-    premium: bool # éste es el nuevo atributo.
+    __saldo: int = 100000
+    premium: bool 
 
-    def __init__(self, nombre, apellido, fecha_registro, premium): # constructor de la clase.
+    def __init__(self, nombre, apellido, fecha_registro, premium):
         self.id = gen.generar_id(8)
         self.nombre = nombre.capitalize()
         self.apellido = apellido.capitalize()
         self.correo = nombre + '.' + apellido + '@gmail.com'
         self.fecha_registro = fecha_registro
-        self.__saldo = 100000
-
-        if premium == True:
-            premium = 'cliente premium'
-
-        else:
-            premium = ''
-
-        self.premium = premium.title()
-
+        self.premium = premium
 
     def agregar_saldo(self): # método.
         saldo_agregar = input(f'Ingresar saldo para {self.nombre}: ')
