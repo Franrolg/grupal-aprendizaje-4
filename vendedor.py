@@ -1,30 +1,23 @@
-from generador import generar_rut, color, warning, success, validar
+import generador as gen
 from producto import lista_productos
 from cliente import lista_clientes
 
-class Vendedor(): # definición de la clase y sus atributos.
+class Vendedor(): 
     run: str
     nombre: str
     apellido: str
     seccion: str
-    __comision: float
-    destacado: bool # éste es el nuevo atributo.
+    __comision: float = 0
+    destacado: bool 
    
-    def __init__(self, nombre, apellido, seccion, destacado): # constructor de la clase.
-        self.run = generar_rut(1,26)
+    def __init__(self, nombre, apellido, seccion, destacado): 
+        self.run = gen.generar_rut(1,26)
         self.nombre = nombre.title()
         self.apellido = apellido.title()
         self.seccion = seccion.title()
-        self.__comision = 0
+        self.destacado = destacado
 
-        if destacado == True:
-            destacado = 'vendedor destacado'
-        else:
-            destacado = ''
-
-        self.destacado = destacado.title()
-
-    def mostrar_vendedores(self): # método.
+    def mostrar_vendedores(self):
         vendedor = [self.run, self.nombre, self.apellido, self.seccion, self.__comision]
         
         if self.destacado != '':
@@ -37,10 +30,10 @@ class Vendedor(): # definición de la clase y sus atributos.
             cliente.disminuir_saldo(disminuir)
             self.__comision += (producto.valor_neto * cant) * 0.05
             producto.stock -= cant
-            print(success("¡Venta Realizada Correctamente!"))
-            print(color("Detalle: "), f"Vendedor: {self.nombre} {self.apellido} | Cliente: {cliente.nombre} {cliente.apellido} | Producto: {producto.nombre} {producto.valor_neto*1.19} x {cant} | Total: {disminuir}")
+            print(gen.success("¡Venta Realizada Correctamente!"))
+            print(gen.color("Detalle: "), f"Vendedor: {self.nombre} {self.apellido} | Cliente: {cliente.nombre} {cliente.apellido} | Producto: {producto.nombre} {producto.valor_neto*1.19} x {cant} | Total: {disminuir}")
         else:
-            print(warning("Cliente no tiene saldo suficiente para realizar la compra."))
+            print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
 
 vendedor_1 = Vendedor('Denis', 'Medina', 'Vestuario', False)
 vendedor_2 = Vendedor('Clemente', 'Medina', 'Vestuario', True)
@@ -52,8 +45,8 @@ vendedores= [vendedor_1, vendedor_2, vendedor_3, vendedor_4, vendedor_5]
 
 def menu_vendedores():
     while True:
-        print(success("Menú Vendedores:"))
-        opcion = input(f'{color("1)")} Vendedores\n{color("2)")} Venta\n{warning("0)")} Regresar\n>> ')
+        print(gen.success("Menú Vendedores:"))
+        opcion = input(f'{gen.color("1)")} Vendedores\n{gen.color("2)")} Venta\n{gen.warning("0)")} Regresar\n>> ')
         if opcion == '0':
             break
 
@@ -68,54 +61,54 @@ def menu_vendedores():
                     cont_v+=1
                     nro_vendedor = f"{cont_v})"
                     objeto = vendedor.mostrar_vendedores()
-                    print(f"{color(nro_vendedor)} {objeto[1]} {objeto[2]} | RUT:{objeto[0]}")
+                    print(f"{gen.color(nro_vendedor)} {objeto[1]} {objeto[2]} | RUT:{objeto[0]}")
 
 
                 while True:                        
-                    vendedor_venta = int(input(color("Seleccionar Vendedor\n>> ")))
+                    vendedor_venta = int(input(gen.color("Seleccionar Vendedor\n>> ")))
 
-                    if validar(vendedor_venta, vendedores)==True:
+                    if gen.validar(vendedor_venta, vendedores)==True:
                         break
                     else: 
-                        print(validar(vendedor_venta, vendedores))
+                        print(gen.validar(vendedor_venta, vendedores))
 
 
                 select_vendedor = f"Vendedor: {vendedores[int(vendedor_venta)-1].nombre} {vendedores[int(vendedor_venta)-1].apellido}"
-                print(color(select_vendedor))
+                print(gen.color(select_vendedor))
 
 
                 cont_p=0
                 for producto in lista_productos:
                     cont_p+=1
                     nro_producto = f"{cont_p})"
-                    print(f"{color(nro_producto)} {producto.nombre} ${producto.valor_neto} Stock:{producto.stock}")
+                    print(f"{gen.color(nro_producto)} {producto.nombre} ${producto.valor_neto} Stock:{producto.stock}")
 
                 while True:                        
-                    producto_venta = int(input(color("Seleccionar Producto\n>> ")))
-                    if validar(producto_venta, lista_productos)==True:
+                    producto_venta = int(input(gen.color("Seleccionar Producto\n>> ")))
+                    if gen.validar(producto_venta, lista_productos)==True:
                         break
                     else: 
-                        print(validar(producto_venta, lista_productos))
+                        print(gen.validar(producto_venta, lista_productos))
 
-                cantidad = int(input(color("Ingrese la cantidad\n>> ")))
+                cantidad = int(input(gen.color("Ingrese la cantidad\n>> ")))
                 if cantidad <= lista_productos[producto_venta-1].stock:
-                    print(success("¡Si hay Stock!"))
+                    print(gen.success("¡Si hay Stock!"))
                 else:
-                    print(warning("!No hay Stock Suficiente!"))
+                    print(gen.warning("!No hay Stock Suficiente!"))
                     break
 
                 cont=0
                 for cliente in lista_clientes:
                     cont+=1
                     nro_cliente = f"{cont})"
-                    print(f"{color(nro_cliente)} {cliente.nombre} {cliente.apellido}")
+                    print(f"{gen.color(nro_cliente)} {cliente.nombre} {cliente.apellido}")
 
 
                 while True:                        
-                    cliente_venta = int(input(color("Seleccione el cliente para realizar la venta\n>> ")))
-                    if validar(cliente_venta, lista_clientes)==True:
+                    cliente_venta = int(input(gen.color("Seleccione el cliente para realizar la venta\n>> ")))
+                    if gen.validar(cliente_venta, lista_clientes)==True:
                         break
                     else: 
-                        print(validar(cliente_venta, lista_clientes))
+                        print(gen.validar(cliente_venta, lista_clientes))
                 vendedores[int(vendedor_venta)-1].vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1])
 
