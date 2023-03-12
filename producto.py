@@ -1,5 +1,5 @@
 import generador as gen
-from proveedor import Proveedor, proveedores
+from proveedor import Proveedor, lista_proveedores
 
 class Producto():
     sku: int
@@ -29,11 +29,11 @@ class Producto():
     def calcular_total(self, cantidad):
         return self.precio_total() * cantidad
 
-lista_productos = [Producto('Pantalones', 'Vestuario', proveedores[0], 300, 1500, 'gris'), 
-                   Producto('Camisas', 'Vestuario', proveedores[1], 300, 1000, 'blanco'), 
-                   Producto('Zapatos', 'Calzado', proveedores[2], 250, 2000, 'cafe'), 
-                   Producto('Zapatillas', 'Calzado', proveedores[3], 250, 3000, 'verde'), 
-                   Producto('Cinturon', 'Accesorios', proveedores[4], 400, 1500, 'negro')]
+lista_productos = [Producto('Pantalones', 'Vestuario', lista_proveedores[0], 300, 1500, 'gris'), 
+                   Producto('Camisas', 'Vestuario', lista_proveedores[1], 300, 1000, 'blanco'), 
+                   Producto('Zapatos', 'Calzado', lista_proveedores[2], 250, 2000, 'cafe'), 
+                   Producto('Zapatillas', 'Calzado', lista_proveedores[3], 250, 3000, 'verde'), 
+                   Producto('Cinturon', 'Accesorios', lista_proveedores[4], 400, 1500, 'negro')]
 
 def menu_productos():
     while True:

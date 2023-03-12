@@ -1,46 +1,42 @@
-from generador import generar_rut, color, warning, success
+import generador as gen
 
-class Proveedor(): # ésta es la nueva clase y sus atributos.
-    run: str
+class Proveedor():
     rut: str
     nombre_legal: str
     razon_social: str
     pais: str
-    p_juridica: bool
+    persona_juridica: bool
 
-    def __init__(self, nombre_legal, razon_social, pais, p_juridica): # constructor de la clase.
-        self.rut = generar_rut(1,77)
+    def __init__(self, nombre_legal, razon_social, pais, persona_juridica):
+        self.rut = gen.generar_rut(1,77)
         self.nombre_legal = nombre_legal.title()
         self.razon_social = razon_social.title()
         self.pais = pais.title()
+        self.persona_juridica = persona_juridica
+    
+    def __str__(self) -> str:
+        return f'RUT: {self.rut} / Nombre Legal: {self.nombre_legal} / Razón Social: {self.razon_social} / Pais: {self.pais} / Persona Jurídica: {"Si" if self.persona_juridica else "No"}'
 
-        if p_juridica == True:
-            p_juridica = 'persona jurídica'
-            
-        else:
-            p_juridica = 'persona natural'
+    def mostrar_proveedores(self):
+        return self.rut, self.nombre_legal, self.razon_social, self.pais, self.persona_juridica
 
-        self.p_juridica = p_juridica.title()
-
-    def mostrar_proveedores(self): # método.
-        return self.rut, self.nombre_legal, self.razon_social, self.pais, self.p_juridica
-
-proveedor_1 = Proveedor('Levis', 'venta de pantalones', 'usa', True)
-proveedor_2 = Proveedor('Skiway', 'fabricacion de camisas', 'chile', False)
-proveedor_3 = Proveedor('Poloni', 'venta de zapatos', 'chile', True)
-proveedor_4 = Proveedor('Nike', 'importacion de zapatillas', 'china', False)
-proveedor_5 = Proveedor('Diesel', 'importacion de cinturones', 'brasil', True)
-
-proveedores = [proveedor_1, proveedor_2, proveedor_3, proveedor_4, proveedor_5]
+lista_proveedores = [Proveedor('Levis', 'venta de pantalones', 'usa', True), 
+                     Proveedor('Skiway', 'fabricacion de camisas', 'chile', False), 
+                     Proveedor('Poloni', 'venta de zapatos', 'chile', True), 
+                     Proveedor('Nike', 'importacion de zapatillas', 'china', False), 
+                     Proveedor('Diesel', 'importacion de cinturones', 'brasil', True)]
 
 def menu_proveedores():
+
     while True:
-        print(success("Menú Proveedores:"))
-        opcion = input(f'{color("1)")} Proveedores\n{warning("0)")} Regresar\n>> ')
-        if opcion == '0':
-            break
-        elif opcion == '1':
-            for proveedor in proveedores:
-                print(proveedor.mostrar_proveedores())
+        print(gen.success("Menú Proveedores:"))
+
+        opcion = input(f'{gen.color("1)")} Proveedores\n{gen.warning("0)")} Regresar\n>> ')
+
+        if opcion == '0': break
+
+        elif opcion == '1': 
+            for proveedor in lista_proveedores: print(proveedor)
+
         else:
-            print(warning('Ingresar una opción válida.'))
+            print(gen.warning('Ingresar una opción válida.'))
