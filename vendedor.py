@@ -16,13 +16,12 @@ class Vendedor():
         self.apellido = apellido.title()
         self.seccion = seccion.title()
         self.destacado = destacado
+    
+    def __str__(self) -> str:
+        return f'{self.nombre} {self.apellido} / RUN: {self.run}'
 
-    def mostrar_vendedores(self):
-        vendedor = [self.run, self.nombre, self.apellido, self.seccion, self.__comision]
-        
-        if self.destacado != '':
-            vendedor.append(self.destacado)
-        return (vendedor)
+    def mostrar_datos(self):
+        return f'{self.nombre} {self.apellido} / RUN: {self.run} Sección: {self.seccion} / Comisión: {self.__comision}'
     
     def vender(self, cant, producto, cliente): # éste es el nuevo método.
         disminuir = producto.calcular_total(cant)
@@ -35,45 +34,40 @@ class Vendedor():
         else:
             print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
 
-vendedor_1 = Vendedor('Denis', 'Medina', 'Vestuario', False)
-vendedor_2 = Vendedor('Clemente', 'Medina', 'Vestuario', True)
-vendedor_3 = Vendedor('Mohammed', 'Laoudini', 'Calzado', True)
-vendedor_4 = Vendedor('Ignacio', 'Vera', 'Calzado', False)
-vendedor_5 = Vendedor('Francisco', 'Allende', 'Accesorios', True)
-
-vendedores= [vendedor_1, vendedor_2, vendedor_3, vendedor_4, vendedor_5]
+lista_vendedores= [Vendedor('Denis', 'Medina', 'Vestuario', False), 
+                   Vendedor('Clemente', 'Medina', 'Vestuario', True), 
+                   Vendedor('Mohammed', 'Laoudini', 'Calzado', True), 
+                   Vendedor('Ignacio', 'Vera', 'Calzado', False), 
+                   Vendedor('Francisco', 'Allende', 'Accesorios', True)]
 
 def menu_vendedores():
+
     while True:
         print(gen.success("Menú Vendedores:"))
+
         opcion = input(f'{gen.color("1)")} Vendedores\n{gen.color("2)")} Venta\n{gen.warning("0)")} Regresar\n>> ')
-        if opcion == '0':
-            break
+
+        if opcion == '0': break
 
         elif opcion == '1':
-            for vendedor in vendedores:
-                objeto = vendedor.mostrar_vendedores()
-                print(f"{objeto[1]} {objeto[2]} | RUT:{objeto[0]} | Sección: {objeto[3]} | Comisión: {objeto[4]}")
+            for vendedor in lista_vendedores:
+                print(vendedor.mostrar_datos())
 
         elif opcion == '2':
-                cont_v = 0
-                for vendedor in vendedores:
-                    cont_v+=1
-                    nro_vendedor = f"{cont_v})"
-                    objeto = vendedor.mostrar_vendedores()
-                    print(f"{gen.color(nro_vendedor)} {objeto[1]} {objeto[2]} | RUT:{objeto[0]}")
+                for index, vendedor in enumerate(lista_vendedores):
+                    print(f"{gen.color(f'{index+1})')} {vendedor}")
 
 
                 while True:                        
                     vendedor_venta = int(input(gen.color("Seleccionar Vendedor\n>> ")))
 
-                    if gen.validar(vendedor_venta, vendedores)==True:
+                    if gen.validar(vendedor_venta, lista_vendedores)==True:
                         break
                     else: 
-                        print(gen.validar(vendedor_venta, vendedores))
+                        print(gen.validar(vendedor_venta, lista_vendedores))
 
 
-                select_vendedor = f"Vendedor: {vendedores[int(vendedor_venta)-1].nombre} {vendedores[int(vendedor_venta)-1].apellido}"
+                select_vendedor = f"Vendedor: {lista_vendedores[int(vendedor_venta)-1].nombre} {lista_vendedores[int(vendedor_venta)-1].apellido}"
                 print(gen.color(select_vendedor))
 
 
@@ -110,5 +104,5 @@ def menu_vendedores():
                         break
                     else: 
                         print(gen.validar(cliente_venta, lista_clientes))
-                vendedores[int(vendedor_venta)-1].vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1])
+                lista_vendedores[int(vendedor_venta)-1].vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1])
 
