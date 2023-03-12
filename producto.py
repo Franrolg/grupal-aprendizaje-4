@@ -19,12 +19,15 @@ class Producto():
         self.stock = stock
         self.valor_neto = valor_neto
         self.color = color.title()
+    
+    def __str__(self) -> str:
+        return f'Nombre: {self.nombre} / Categoría: {self.categoria} / Proveedor: {self.proveedor.nombre_legal} / Stock: {self.stock} / Precio: ${self.precio_total()}'
 
-    def mostrar_productos(self): # método.
-        return self.sku, self.nombre, self.color, self.categoria, self.proveedor, self.stock, self.valor_neto, self.__impuesto
+    def precio_total(self):
+        return self.valor_neto + int(self.valor_neto * self.__impuesto)
     
     def calcular_total(self, cantidad):
-        return (self.__impuesto*cantidad)
+        return self.precio_total() * cantidad
 
 producto_1 = Producto('Pantalones', 'Vestuario', proveedores[0].mostrar_proveedores(), 300, 1500, 'gris')
 producto_2 = Producto('Camisas', 'Vestuario', proveedores[1].mostrar_proveedores(), 300, 1000, 'blanco')
