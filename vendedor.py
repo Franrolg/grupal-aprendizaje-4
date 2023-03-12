@@ -23,16 +23,22 @@ class Vendedor():
     def mostrar_datos(self):
         return f'{self.nombre} {self.apellido} / RUN: {self.run} Sección: {self.seccion} / Comisión: {self.__comision}'
     
-    def vender(self, cant, producto, cliente): # éste es el nuevo método.
-        disminuir = producto.calcular_total(cant)
-        if cliente.verificar_saldo(disminuir):
-            cliente.disminuir_saldo(disminuir)
-            self.__comision += (producto.valor_neto * cant) * 0.05
-            producto.stock -= cant
-            print(gen.success("¡Venta Realizada Correctamente!"))
-            print(gen.color("Detalle: "), f"Vendedor: {self.nombre} {self.apellido} | Cliente: {cliente.nombre} {cliente.apellido} | Producto: {producto.nombre} {producto.valor_neto*1.19} x {cant} | Total: {disminuir}")
-        else:
-            print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
+    def agregar_comision(self, total_neto: int):
+        self.__comision += total_neto * 0.05
+    
+    def vender(self, cantidad_productos, producto, cliente): 
+
+        precio_total = producto.calcular_total(cantidad_productos) # Se calcula el precio total de la compra
+
+        if not cliente.verificar_saldo(precio_total): return gen.warning("Cliente no tiene saldo suficiente para realizar la compra.") # Se verifíca si el cliente tiene el saldo necesario
+
+        cliente.disminuir_saldo(precio_total) # Se resta el total de la compra al saldo del cliente
+        self.agregar_comision(producto.valor_neto * cantidad_productos) # Se le suma la comisión de la venta al vendedor
+        producto.disminuir_stock(cantidad_productos) # Se resta las unidades vendidas al stock del producto
+
+        return f'{gen.success("¡Venta Realizada Correctamente!")} \n {gen.color("Detalle: ")} \n Vendedor: {self.nombre} {self.apellido} \n Cliente: {cliente.nombre} {cliente.apellido} \n Producto: {producto.nombre} ${producto.precio_total()} x {cantidad_productos} \n Total: {precio_total}'
+
+
 
 lista_vendedores= [Vendedor('Denis', 'Medina', 'Vestuario', False), 
                    Vendedor('Clemente', 'Medina', 'Vestuario', True), 
@@ -54,21 +60,21 @@ def menu_vendedores():
                 print(vendedor.mostrar_datos())
 
         elif opcion == '2':
+                vendedor : Vendedor
+
                 for index, vendedor in enumerate(lista_vendedores, start=1):
                     print(f"{gen.color(f'{index})')} {vendedor}")
 
-
                 while True:                        
-                    vendedor_venta = int(input(gen.color("Seleccionar Vendedor\n>> ")))
+                    opcion_vendedor = int(input(gen.color("Seleccionar Vendedor\n>> ")))
 
-                    if gen.validar(vendedor_venta, lista_vendedores)==True:
+                    if gen.validar(opcion_vendedor, lista_vendedores):
+                        vendedor = lista_vendedores[opcion_vendedor-1]
                         break
-                    else: 
-                        print(gen.validar(vendedor_venta, lista_vendedores))
 
+                    print(gen.warning(f"Selección fuera de rango, presiona un número entre 1 y {len(lista_vendedores)}"))
 
-                select_vendedor = f"Vendedor: {lista_vendedores[int(vendedor_venta)-1].nombre} {lista_vendedores[int(vendedor_venta)-1].apellido}"
-                print(gen.color(select_vendedor))
+                print(gen.color(f"Vendedor: {vendedor.nombre} {vendedor.apellido}"))
 
 
                 cont_p=0
@@ -104,5 +110,6 @@ def menu_vendedores():
                         break
                     else: 
                         print(gen.validar(cliente_venta, lista_clientes))
-                lista_vendedores[int(vendedor_venta)-1].vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1])
+                        
+                print(vendedor.vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1]))
 

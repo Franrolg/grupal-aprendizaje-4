@@ -28,6 +28,9 @@ class Producto():
     
     def calcular_total(self, cantidad):
         return self.precio_total() * cantidad
+    
+    def disminuir_stock(self, unidades):
+        self.stock -= unidades
 
 lista_productos = [Producto('Pantalones', 'Vestuario', lista_proveedores[0], 300, 1500, 'gris'), 
                    Producto('Camisas', 'Vestuario', lista_proveedores[1], 300, 1000, 'blanco'), 
