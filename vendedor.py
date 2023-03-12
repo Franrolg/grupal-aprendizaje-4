@@ -54,8 +54,8 @@ def menu_vendedores():
                 print(vendedor.mostrar_datos())
 
         elif opcion == '2':
-                for index, vendedor in enumerate(lista_vendedores):
-                    print(f"{gen.color(f'{index+1})')} {vendedor}")
+                for index, vendedor in enumerate(lista_vendedores, start=1):
+                    print(f"{gen.color(f'{index})')} {vendedor}")
 
 
                 while True:                        
