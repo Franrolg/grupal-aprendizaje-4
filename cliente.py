@@ -21,12 +21,10 @@ class Cliente():
         self.__saldo += saldo_agregar
 
     def disminuir_saldo(self, saldo_disminuir):
-        if self.__saldo < saldo_disminuir:
-            print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
-            return False
-        else:
-            self.__saldo -= saldo_disminuir
-            return True
+        self.__saldo -= saldo_disminuir
+
+    def verificar_saldo(self, saldo_disminuir):
+        return True if self.__saldo >= saldo_disminuir else False # True si hay saldo suficiente, False si no hay saldo suficiente
         
     def mostrar_saldo(self): # método.
         print(f"{self.nombre} tiene un saldo de: ${self.__saldo}")
@@ -65,7 +63,7 @@ def menu_clientes():
                     while True: # Ciclo para validar dato ingresado
                         saldo = input(f'Ingresar saldo para {x.nombre}: ') # Se pregunta saldo
                         if saldo.isnumeric(): break # Si el valor ingresado es un número, termina el ciclo while
-                        gen.warning('Debe ingresar solo números.') # Si el valor no es número, se imprime este mensaje y hace de nuevo el ciclo
+                        print(gen.warning('Debe ingresar solo números.')) # Si el valor no es número, se imprime este mensaje y hace de nuevo el ciclo
                     x.agregar_saldo(int(saldo))
             
         elif opcion == '2':

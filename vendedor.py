@@ -33,13 +33,14 @@ class Vendedor(): # definición de la clase y sus atributos.
     
     def vender(self, cant, producto, cliente): # éste es el nuevo método.
         disminuir = producto.calcular_total(cant)
-        if cliente.disminuir_saldo(disminuir) == True:
+        if cliente.verificar_saldo(disminuir):
+            cliente.disminuir_saldo(disminuir)
             self.__comision += (producto.valor_neto * cant) * 0.05
             producto.stock -= cant
             print(success("¡Venta Realizada Correctamente!"))
             print(color("Detalle: "), f"Vendedor: {self.nombre} {self.apellido} | Cliente: {cliente.nombre} {cliente.apellido} | Producto: {producto.nombre} {producto.valor_neto*1.19} x {cant} | Total: {disminuir}")
         else:
-            print(warning("¡Error durante la compra!"))
+            print(warning("Cliente no tiene saldo suficiente para realizar la compra."))
 
 vendedor_1 = Vendedor('Denis', 'Medina', 'Vestuario', False)
 vendedor_2 = Vendedor('Clemente', 'Medina', 'Vestuario', True)
