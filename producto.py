@@ -40,12 +40,10 @@ def menu_productos():
         
         print(gen.success("Menú Productos:"))
         opcion = input(f'{gen.color("1)")} Productos\n{gen.warning("0)")} Regresar\n>> ')
-        if opcion == '0':
-            break
+        if opcion == '0': break
 
         elif opcion == '1':
-            for producto in lista_productos:
-                print(producto.mostrar_productos())
+            for producto in lista_productos: print(producto)
 
         else:
             print(gen.warning('Ingresar una opción válida.'))
