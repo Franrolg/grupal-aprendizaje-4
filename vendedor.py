@@ -1,5 +1,5 @@
 from generador import generar_rut, color, warning, success, validar
-from producto import productos
+from producto import lista_productos
 from cliente import lista_clientes
 
 class Vendedor(): # definición de la clase y sus atributos.
@@ -85,20 +85,20 @@ def menu_vendedores():
 
 
                 cont_p=0
-                for producto in productos:
+                for producto in lista_productos:
                     cont_p+=1
                     nro_producto = f"{cont_p})"
                     print(f"{color(nro_producto)} {producto.nombre} ${producto.valor_neto} Stock:{producto.stock}")
 
                 while True:                        
                     producto_venta = int(input(color("Seleccionar Producto\n>> ")))
-                    if validar(producto_venta, productos)==True:
+                    if validar(producto_venta, lista_productos)==True:
                         break
                     else: 
-                        print(validar(producto_venta, productos))
+                        print(validar(producto_venta, lista_productos))
 
                 cantidad = int(input(color("Ingrese la cantidad\n>> ")))
-                if cantidad <= productos[producto_venta-1].stock:
+                if cantidad <= lista_productos[producto_venta-1].stock:
                     print(success("¡Si hay Stock!"))
                 else:
                     print(warning("!No hay Stock Suficiente!"))
@@ -117,5 +117,5 @@ def menu_vendedores():
                         break
                     else: 
                         print(validar(cliente_venta, lista_clientes))
-                vendedores[int(vendedor_venta)-1].vender(cantidad, productos[producto_venta-1], lista_clientes[cliente_venta-1])
+                vendedores[int(vendedor_venta)-1].vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1])
 

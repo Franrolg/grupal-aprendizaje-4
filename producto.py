@@ -29,13 +29,11 @@ class Producto():
     def calcular_total(self, cantidad):
         return self.precio_total() * cantidad
 
-producto_1 = Producto('Pantalones', 'Vestuario', proveedores[0].mostrar_proveedores(), 300, 1500, 'gris')
-producto_2 = Producto('Camisas', 'Vestuario', proveedores[1].mostrar_proveedores(), 300, 1000, 'blanco')
-producto_3 = Producto('Zapatos', 'Calzado', proveedores[2].mostrar_proveedores(), 250, 2000, 'cafe')
-producto_4 = Producto('Zapatillas', 'Calzado', proveedores[3].mostrar_proveedores(), 250, 3000, 'verde')
-producto_5 = Producto('Cinturon', 'Accesorios', proveedores[4].mostrar_proveedores(), 400, 1500, 'negro')
-
-productos = [producto_1, producto_2, producto_3, producto_4, producto_5]
+lista_productos = [Producto('Pantalones', 'Vestuario', proveedores[0], 300, 1500, 'gris'), 
+                   Producto('Camisas', 'Vestuario', proveedores[1], 300, 1000, 'blanco'), 
+                   Producto('Zapatos', 'Calzado', proveedores[2], 250, 2000, 'cafe'), 
+                   Producto('Zapatillas', 'Calzado', proveedores[3], 250, 3000, 'verde'), 
+                   Producto('Cinturon', 'Accesorios', proveedores[4], 400, 1500, 'negro')]
 
 def menu_productos():
     while True:
@@ -46,7 +44,7 @@ def menu_productos():
             break
 
         elif opcion == '1':
-            for producto in productos:
+            for producto in lista_productos:
                 print(producto.mostrar_productos())
 
         else:
