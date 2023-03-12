@@ -1,6 +1,5 @@
 import generador as gen
 
-
 class Cliente(): 
     id: str
     nombre: str
@@ -18,11 +17,10 @@ class Cliente():
         self.fecha_registro = fecha_registro
         self.premium = premium
 
-    def agregar_saldo(self): # método.
-        saldo_agregar = input(f'Ingresar saldo para {self.nombre}: ')
-        self.__saldo += int(saldo_agregar)
+    def agregar_saldo(self, saldo_agregar): 
+        self.__saldo += saldo_agregar
 
-    def disminuir_saldo(self, saldo_disminuir): # método.
+    def disminuir_saldo(self, saldo_disminuir):
         if self.__saldo < saldo_disminuir:
             print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
             return False
@@ -63,9 +61,12 @@ def menu_clientes():
             nombre = input('Ingrese Nombre: ')
 
             for x in clientes:
-
                 if x.nombre == nombre.capitalize():
-                    x.agregar_saldo()
+                    while True: # Ciclo para validar dato ingresado
+                        saldo = input(f'Ingresar saldo para {x.nombre}: ') # Se pregunta saldo
+                        if saldo.isnumeric(): break # Si el valor ingresado es un número, termina el ciclo while
+                        gen.warning('Debe ingresar solo números.') # Si el valor no es número, se imprime este mensaje y hace de nuevo el ciclo
+                    x.agregar_saldo(int(saldo))
             
         elif opcion == '2':
             print(gen.success('Saldo'))
