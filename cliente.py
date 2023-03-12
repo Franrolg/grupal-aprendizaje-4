@@ -32,13 +32,15 @@ class Cliente():
     def __str__(self) -> str:
         return f'Nombre: {self.nombre} {self.apellido} / Registro: {self.fecha_registro} / Saldo: {self.__saldo} / Cliente Premium: {"Si" if self.premium else "No"}'
 
-cliente_1 = Cliente('Eduardo', 'Castro', '11/12/2022', True)
-cliente_2 = Cliente('Felipe', 'Soto', '11/11/2021', False)
-cliente_3 = Cliente('Andrea', 'Oyarce','05/11/2020', True)
-cliente_4 = Cliente('Esteban', 'Lopez', '06/10/2021', True)
-cliente_5 = Cliente('Claudio', 'Alarcon', '20/11/2020', False)
+datos_clientes = [
+    {'nombre': 'Eduardo', 'apellido': 'Castro', 'fecha_registro': '11/12/2022', 'premium': True},
+    {'nombre': 'Felipe', 'apellido': 'Soto', 'fecha_registro': '11/11/2021', 'premium': False},
+    {'nombre': 'Andrea', 'apellido': 'Oyarce', 'fecha_registro': '05/11/2020', 'premium': True},
+    {'nombre': 'Esteban', 'apellido': 'Lopez', 'fecha_registro': '06/10/2021', 'premium': True},
+    {'nombre': 'Claudio', 'apellido': 'Alarcon', 'fecha_registro': '20/11/2020', 'premium': False} 
+    ]
 
-clientes = [cliente_1, cliente_2, cliente_3, cliente_4, cliente_5]
+lista_clientes = [Cliente(cliente['nombre'], cliente['apellido'], cliente['fecha_registro'], cliente['premium']) for cliente in datos_clientes]
 
 def menu_clientes():
     while True:
@@ -53,7 +55,7 @@ def menu_clientes():
             print(gen.success('Agregar Saldo'))
             nombre = input('Ingrese Nombre: ')
 
-            for x in clientes:
+            for x in lista_clientes:
                 if x.nombre == nombre.capitalize():
                     while True: # Ciclo para validar dato ingresado
                         saldo = input(f'Ingresar saldo para {x.nombre}: ') # Se pregunta saldo
@@ -64,12 +66,12 @@ def menu_clientes():
         elif opcion == '2':
             print(gen.success('Saldo'))
             nombre = input('Ingrese Nombre: ')
-            for x in clientes:
+            for x in lista_clientes:
                 if x.nombre == nombre.capitalize():
                     x.mostrar_saldo()  
 
         elif opcion == '3':
-            for cliente in clientes: print(cliente) # Se imprime lo que retorna __str__ de la clase Cliente
+            for cliente in lista_clientes: print(cliente) # Se imprime lo que retorna __str__ de la clase Cliente
 
         else:
             print(gen.warning('Ingresar una opción válida.'))
