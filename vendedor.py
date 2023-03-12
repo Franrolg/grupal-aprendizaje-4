@@ -67,12 +67,13 @@ def menu_vendedores():
 
                 while True:                        
                     opcion_vendedor = int(input(gen.color("Seleccionar Vendedor\n>> ")))
+                    validar_opcion = gen.validar(opcion_vendedor, lista_vendedores)
 
-                    if gen.validar(opcion_vendedor, lista_vendedores):
+                    if isinstance(validar_opcion, bool):
                         vendedor = lista_vendedores[opcion_vendedor-1]
                         break
 
-                    print(gen.warning(f"Selección fuera de rango, presiona un número entre 1 y {len(lista_vendedores)}"))
+                    print(validar_opcion)
 
                 print(gen.color(f"Vendedor: {vendedor.nombre} {vendedor.apellido}"))
 
@@ -110,6 +111,6 @@ def menu_vendedores():
                         break
                     else: 
                         print(gen.validar(cliente_venta, lista_clientes))
-                        
+
                 print(vendedor.vender(cantidad, lista_productos[producto_venta-1], lista_clientes[cliente_venta-1]))
 

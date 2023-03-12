@@ -13,7 +13,7 @@ def generar_rut(inicio, fin):
 
 
 def validar(seleccion, lista):
-    return True if 0 < seleccion <= len(lista) else False
+    return True if 0 < seleccion <= len(lista) else warning(f"Selección fuera de rango, presiona un número entre 1 y {len(lista)}")
 
 
 # Inicializar colorama
