@@ -1,4 +1,4 @@
-from generador import generar_id, color, warning, success
+import generador as gen
 
 
 class Cliente(): # definición de la clase y sus atributos.
@@ -11,7 +11,7 @@ class Cliente(): # definición de la clase y sus atributos.
     premium: bool # éste es el nuevo atributo.
 
     def __init__(self, nombre, apellido, fecha_registro, premium): # constructor de la clase.
-        self.id = generar_id(8)
+        self.id = gen.generar_id(8)
         self.nombre = nombre.capitalize()
         self.apellido = apellido.capitalize()
         self.correo = nombre + '.' + apellido + '@gmail.com'
@@ -33,7 +33,7 @@ class Cliente(): # definición de la clase y sus atributos.
 
     def disminuir_saldo(self, saldo_disminuir): # método.
         if self.__saldo < saldo_disminuir:
-            print(warning("Cliente no tiene saldo suficiente para realizar la compra."))
+            print(gen.warning("Cliente no tiene saldo suficiente para realizar la compra."))
             return False
         else:
             self.__saldo -= saldo_disminuir
@@ -61,14 +61,14 @@ clientes = [cliente_1, cliente_2, cliente_3, cliente_4, cliente_5]
 def menu_clientes():
     while True:
 
-        print(success("Menú Clientes:"))
-        opcion = input(f'{color("1)")} Agregar saldo\n{color("2)")} Saldo\n{color("3)")} Clientes\n{warning("0)")} Regresar\n>> ')
+        print(gen.success("Menú Clientes:"))
+        opcion = input(f'{gen.color("1)")} Agregar saldo\n{gen.color("2)")} Saldo\n{gen.color("3)")} Clientes\n{gen.warning("0)")} Regresar\n>> ')
 
         if opcion == '0':
             break
 
         elif opcion == '1':
-            print(success('Agregar Saldo'))
+            print(gen.success('Agregar Saldo'))
             nombre = input('Ingrese Nombre: ')
 
             for x in clientes:
@@ -77,7 +77,7 @@ def menu_clientes():
                     x.agregar_saldo()
             
         elif opcion == '2':
-            print(success('Saldo'))
+            print(gen.success('Saldo'))
             nombre = input('Ingrese Nombre: ')
             for x in clientes:
                 if x.nombre == nombre.capitalize():
@@ -88,4 +88,4 @@ def menu_clientes():
                 print(cliente.mostrar_clientes())
 
         else:
-            print(warning('Ingresar una opción válida.'))
+            print(gen.warning('Ingresar una opción válida.'))
