@@ -1,6 +1,7 @@
-import generador as gen
+import generador as gen, itertools
 from producto import lista_productos, Producto
 from cliente import lista_clientes, Cliente
+from bodega import bodega, sucursal
 
 class Vendedor(): 
     run: str
@@ -26,25 +27,56 @@ class Vendedor():
     def agregar_comision(self, total_neto: int):
         self.__comision += total_neto * 0.05
     
-    def vender(self, cantidad_productos, producto, cliente): 
+    def vender(self, orden_compra): 
 
-        precio_total = producto.calcular_total(cantidad_productos) # Se calcula el precio total de la compra
+        precio_total = orden_compra.producto.calcular_total(orden_compra.cantidad_producto) # Se calcula el precio total de la compra
 
-        if not cliente.verificar_saldo(precio_total): return gen.warning("Cliente no tiene saldo suficiente para realizar la compra.") # Se verifíca si el cliente tiene el saldo necesario
+        if not orden_compra.cliente.verificar_saldo(precio_total): return gen.warning("Cliente no tiene saldo suficiente para realizar la compra.") # Se verifíca si el cliente tiene el saldo necesario
 
-        cliente.disminuir_saldo(precio_total) # Se resta el total de la compra al saldo del cliente
-        self.agregar_comision(producto.valor_neto * cantidad_productos) # Se le suma la comisión de la venta al vendedor
-        producto.disminuir_stock(cantidad_productos) # Se resta las unidades vendidas al stock del producto
+        orden_compra.cliente.disminuir_saldo(precio_total) # Se resta el total de la compra al saldo del cliente
+        self.agregar_comision(orden_compra.producto.valor_neto * orden_compra.cantidad_producto) # Se le suma la comisión de la venta al vendedor
+        orden_compra.producto.disminuir_stock(orden_compra.cantidad_producto) # Se resta las unidades vendidas al stock del producto
+        sucursal.restar_stock(orden_compra.cantidad_producto) # Se resta unidades de productos vendidas a la sucursal
+        lista_compras.append(orden_compra) # Se guarda la compra en una lista
 
-        return f'{gen.success("¡Venta Realizada Correctamente!")} \n {gen.color("Detalle: ")} \n Vendedor: {self.nombre} {self.apellido} \n Cliente: {cliente.nombre} {cliente.apellido} \n Producto: {producto.nombre} ${producto.precio_total()} x {cantidad_productos} \n Total: {precio_total}'
+        return f'{gen.success("¡Venta Realizada Correctamente!")} \n {gen.color("Detalle: ")} \n {orden_compra}'
 
+class OrdenCompra():
+    id: int
+    producto: Producto
+    cantidad_producto: int
+    vendedor: Vendedor
+    cliente: Cliente
+    despacho: bool
 
+    nueva_id = itertools.count()
+
+    def __init__(self, producto, cantidad_producto, vendedor, cliente, despacho) -> None:
+        self.id = next(self.nueva_id)
+        self.producto = producto
+        self.cantidad_producto = cantidad_producto
+        self.vendedor = vendedor
+        self.cliente = cliente
+        self.despacho = despacho
+    
+    def calcular_despacho(self):
+        return 5000 if self.despacho else 0
+    
+    def calcular_total(self):
+        return self.producto.calcular_total(self.cantidad_producto) + self.calcular_despacho()
+
+    def __str__(self) -> str:
+        return f'Vendedor: {self.vendedor} \n Cliente: {self.cliente.nombre_completo} \n Producto: {self.producto.nombre}\n Cantidad: {self.cantidad_producto} \n Valor Neto: ${self.producto.valor_neto*self.cantidad_producto} \n Impuesto: ${self.producto.calcular_impuesto()*self.cantidad_producto} \n Despacho: ${self.calcular_despacho()} \n Total: ${self.calcular_total()}'
+    
+    
 
 lista_vendedores= [Vendedor('Denis', 'Medina', 'Vestuario', False), 
                    Vendedor('Clemente', 'Medina', 'Vestuario', True), 
                    Vendedor('Mohammed', 'Laoudini', 'Calzado', True), 
                    Vendedor('Ignacio', 'Vera', 'Calzado', False), 
                    Vendedor('Francisco', 'Allende', 'Accesorios', True)]
+
+lista_compras = []
 
 def menu_vendedores():
 
@@ -103,7 +135,7 @@ def menu_vendedores():
 
 
                 for index, cliente in enumerate(lista_clientes, start=1):
-                    print(f"{gen.color(index)} {cliente.nombre} {cliente.apellido}")
+                    print(f"{gen.color(index)}) {cliente.nombre} {cliente.apellido}")
 
                 while True:                        
                     opcion_cliente = int(input(gen.color("Seleccione el cliente para realizar la venta\n>> ")))
@@ -113,6 +145,13 @@ def menu_vendedores():
                         cliente = lista_clientes[opcion_producto-1]
                         break
                     print(validar_opcion)
+                
+                while True:                        
+                    opcion_cliente = int(input(gen.color(f"¿Necesita despacho?\n {gen.color(1)}) Si\n {gen.color(2)}) No\n>> ")))
+                    validar_opcion = gen.validar(opcion_cliente, [1, 2])
 
-                print(vendedor.vender(cantidad_productos, producto, cliente))
+                    if isinstance(validar_opcion, bool): break
+                    print(validar_opcion)
+
+                print(vendedor.vender(OrdenCompra(producto, cantidad_productos, vendedor, cliente, True if opcion_cliente == 1 else False)))
 

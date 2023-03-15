@@ -24,7 +24,10 @@ class Producto():
         return f'Nombre: {self.nombre} / Categoría: {self.categoria} / Proveedor: {self.proveedor.nombre_legal} / Stock: {self.stock} / Precio: ${self.precio_total()}'
 
     def precio_total(self):
-        return self.valor_neto + int(self.valor_neto * self.__impuesto)
+        return self.valor_neto + self.calcular_impuesto()
+    
+    def calcular_impuesto(self):
+        return int(self.valor_neto * self.__impuesto)
     
     def calcular_total(self, cantidad):
         return self.precio_total() * cantidad

@@ -16,6 +16,7 @@ class Cliente():
         self.correo = nombre + '.' + apellido + '@gmail.com'
         self.fecha_registro = fecha_registro
         self.premium = premium
+        self.nombre_completo = f'{self.nombre} {self.apellido}'
 
     def agregar_saldo(self, saldo_agregar): 
         self.__saldo += saldo_agregar
